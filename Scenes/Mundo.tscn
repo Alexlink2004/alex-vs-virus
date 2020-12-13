@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scenes/Mundo.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/roca.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://negro.jpg" type="Texture" id=5]
+[ext_resource path="res://Scenes/fondo.gd" type="Script" id=6]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 7.0083, 1.03107, 0, 0, 0, 0, 605.888, -0.142781, 0, 0, 0, 0, 600.016, 491.264, 0, 0, 0, 0, 597.079, 985.821 )
+}
+
+[node name="Mundo" type="Node"]
+script = ExtResource( 1 )
+Roca = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 266.215, 266.71 )
+
+[node name="RocaTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="InicioTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="PosicionDeInicio" type="Position2D" parent="."]
+position = Vector2( 320, 480 )
+
+[node name="camino" type="Path2D" parent="."]
+position = Vector2( 0, -0.437128 )
+scale = Vector2( 1, 0.932153 )
+curve = SubResource( 1 )
+
+[node name="RocaPosicion" type="PathFollow2D" parent="camino"]
+position = Vector2( 7.0083, 1.03107 )
+rotation = -0.00196008
+
+[node name="UI" parent="." instance=ExtResource( 4 )]
+
+[node name="fondo" type="Sprite" parent="."]
+modulate = Color( 0.407843, 1, 0, 1 )
+position = Vector2( 418.924, 798.063 )
+scale = Vector2( 1.45832, 2.98473 )
+z_index = -100
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+[connection signal="golpe" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="RocaTimer" to="." method="_on_RocaTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="timeout" from="InicioTimer" to="." method="_on_InicioTimer_timeout"]
+[connection signal="iniciar_juego" from="UI" to="." method="nuevo_juego"]

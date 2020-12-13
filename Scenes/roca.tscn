@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://roca.gd" type="Script" id=1]
+[ext_resource path="res://Rocas/virus/sprite_chico2.png" type="Texture" id=2]
+[ext_resource path="res://Rocas/virus/sprite_chico1.png" type="Texture" id=3]
+[ext_resource path="res://Rocas/virus_mediano0.png" type="Texture" id=4]
+[ext_resource path="res://Rocas/virus_mediano1.png" type="Texture" id=5]
+[ext_resource path="res://Rocas/virus_mediano2.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "chica",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "grande",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 34.644
+
+[node name="roca" type="RigidBody2D"]
+position = Vector2( 332.459, 152.989 )
+collision_layer = 0
+gravity_scale = 0.0
+script = ExtResource( 1 )
+Velocidad_min = 250
+Velocidad_max = 700
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -7.62939e-006, 0.925282 )
+scale = Vector2( 0.826504, 0.819276 )
+frames = SubResource( 1 )
+animation = "grande"
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.19995, -0.200012 )
+shape = SubResource( 2 )
+
+[node name="visibilidad" type="VisibilityNotifier2D" parent="."]
+[connection signal="screen_exited" from="visibilidad" to="." method="_on_visibilidad_screen_exited"]
